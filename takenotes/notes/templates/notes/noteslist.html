@@ -1,0 +1,19 @@
+{% extends 'notes/base.html' %}
+
+{% block heading %}
+<h1><a href="/">Notify-Your Notes</a></h1>
+<a href="{% url 'newnote' %}" class="top-menu">
+    {% include './icons/file-earmark-plus.svg' %}
+</a>
+{% endblock %}
+
+        {% block content %}
+        {% for note in notelist %}
+        <article>
+            <h2><a href="{% url 'singlenote' pk=note.pk %}">{{note.title}}</a></h2>
+            <time>Last Saved: {{note.save_date}}</time>
+            <a>Tags: {{note.tags}}</a>
+            <p>{{ note.text|linebreaksbr }}</p>
+        </article>
+        {% endfor %}
+        {% endblock %}
