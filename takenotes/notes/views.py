@@ -1,4 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+
+from notes.forms import NoteForm
 from .models import Note
 from django.contrib.auth.models import User
 # Create your views here.
@@ -18,4 +20,26 @@ def viewnote(request,pk):
     return render(request, 'notes/viewnote.html',{'note':note})
 
 def newnote(request):
-    return
+    if request.method=="POST":
+        form = NoteForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.savetoapp()
+            return redirect('singlenote',pk=post.pk)
+    else:
+        form = NoteForm()
+    return render(request,'notes/editnote.html',{'form': form})
+
+def changenote(request,pk):
+    post = get_object_or_404(Note, pk=pk)
+    if request.method == "POST":
+        form = NoteForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.savetoapp()
+            return redirect('singlenote', pk=post.pk)
+    else:
+        form = NoteForm(instance=post)
+    return render(request, 'notes/editnote.html', {'form': form})
