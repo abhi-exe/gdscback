@@ -7,6 +7,10 @@
     {% include './icons/window.svg' %}
 </a>
 <a1>View All</a1>
+<a href="{% url 'signout' %}" class="top-menu">
+    {% include './icons/arrow-90deg-left.svg' %}
+</a>
+<a1>Log Out</a1>
 {% endblock %}
 
         {% block content %}
