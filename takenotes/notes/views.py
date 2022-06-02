@@ -1,17 +1,28 @@
+from django.forms import PasswordInput
 from django.shortcuts import render, get_object_or_404, redirect
 
-from notes.forms import NoteForm
-from .models import Note
-from django.contrib.auth.models import User
+from notes.forms import NoteForm, LoginForm
+from .models import Note, User
 # Create your views here.
+global isloggedin
+user=0
 
 def login(request):
-    #Make a login portal
-    user=User.objects.get(username="evilcraft68")
-    return render(request,'notes/login.html',{})
+    if request.method=="POST":
+        form= LoginForm(request.POST)
+        if form.is_valid():
+            try:
+                myuser=User.objects.get(email=request.POST['email'],password=request.POST['password'])
+                global user
+                user=get_object_or_404(User,pk=myuser.pk)
+                return redirect('noteshomeroute')
+            except User.DoesNotExist:
+                return render(request,'notes/login.html',{'form': form,'error': 'Invalid Credentials'})
+    else:
+        form= LoginForm()
+    return render(request,'notes/login.html',{'form': form,'error': ''})
 
 def notelist(request):
-    user=User.objects.get(username="evilcraft68")
     notelist1=Note.objects.filter(author=user)
     return render(request,'notes/noteslist.html',{'notelist': notelist1})
 
@@ -24,7 +35,7 @@ def newnote(request):
         form = NoteForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
-            post.author = request.user
+            post.author = user
             post.savetoapp()
             return redirect('singlenote',pk=post.pk)
     else:
@@ -37,7 +48,7 @@ def changenote(request,pk):
         form = NoteForm(request.POST, instance=post)
         if form.is_valid():
             post = form.save(commit=False)
-            post.author = request.user
+            post.author = user
             post.savetoapp()
             return redirect('singlenote', pk=post.pk)
     else:

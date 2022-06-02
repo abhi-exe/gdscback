@@ -1,9 +1,15 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Notify</title>
-    </head>
-    <body>
-        <h1>See, if this works!</h1>
-    </body>
-</html>
+{% extends 'notes/base.html' %}
+
+{% block heading %}
+<h1><a href="/">Welcome to Notify</a></h1>
+
+{% endblock %}
+
+        {% block content %}
+        <h2>Login</h2>
+        <form method="POST" class="post-form">{% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="save btn btn-secondary">Log In</button>
+        </form>
+        <e>{{error}}</e>
+        {% endblock %}

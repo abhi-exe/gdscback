@@ -4,8 +4,13 @@ from django.conf import settings
 from django.utils import timezone
 
 
+class User(models.Model):
+    email= models.EmailField()
+    password=models.CharField(max_length=16)
+
+
 class Note(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     text = models.TextField()
     save_date = models.DateTimeField(blank=True, null=True)
