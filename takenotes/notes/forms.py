@@ -12,3 +12,6 @@ class LoginForm(forms.ModelForm):
     class Meta:
         model= User
         fields=('email','password')
+
+class SearchForm(forms.Form):
+    tags = forms.CharField(max_length=50)

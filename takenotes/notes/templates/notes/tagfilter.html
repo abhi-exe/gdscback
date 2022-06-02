@@ -10,10 +10,6 @@
     {% include './icons/window.svg' %}
 </a>
 <a1>View All</a1>
-<a href="{% url 'tagfilter' %}" class="top-menu">
-    {% include './icons/search.svg' %}
-</a>
-<a1>Search by Tag</a1>
 <a href="{% url 'signout' %}" class="top-menu">
     {% include './icons/arrow-90deg-left.svg' %}
 </a>
@@ -21,6 +17,10 @@
 {% endblock %}
 
         {% block content %}
+        <form method="POST" class="post-form">{% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="save btn btn-secondary">Search</button>
+        </form>
         {% for note in notelist %}
         <article>
             <h2><a href="{% url 'singlenote' pk=note.pk %}">{{note.title}}</a></h2>

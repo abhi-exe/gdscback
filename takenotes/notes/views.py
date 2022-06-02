@@ -1,7 +1,7 @@
 from django.forms import PasswordInput
 from django.shortcuts import render, get_object_or_404, redirect
 
-from notes.forms import NoteForm, LoginForm
+from notes.forms import NoteForm, LoginForm, SearchForm
 from .models import Note, User
 # Create your views here.
 isloggedin=0
@@ -92,3 +92,17 @@ def deletenote(request,pk):
     note=get_object_or_404(Note, pk=pk, author=user)
     note.delete()
     return redirect('noteshomeroute')
+
+def tagfilter(request):
+    if isloggedin!=1:
+        return redirect('loginroute')
+    if request.method=="POST":
+        form=SearchForm(request.POST)
+        if form.is_valid():
+            tags=request.POST['tags']
+            notelist1=Note.objects.filter(tags__contains=tags,author=user)
+            return render(request,'notes/tagfilter.html',{'form':form,'notelist': notelist1})
+
+    else:
+        form=SearchForm()
+    return render(request,'notes/tagfilter.html',{'form':form,'notelist':[]})

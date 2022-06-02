@@ -10,4 +10,5 @@ urlpatterns = [
     path('signout',views.signout,name='signout'),
     path('signup',views.signup,name='signup'),
     path('mynotes/delete/<int:pk>/',views.deletenote,name='deletenote'),
+    path('tagfilter',views.tagfilter,name='tagfilter'),
 ]
