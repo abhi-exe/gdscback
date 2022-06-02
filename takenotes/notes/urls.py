@@ -8,4 +8,5 @@ urlpatterns = [
     path('createnote',views.newnote, name='newnote'),
     path('mynotes/<int:pk>/edit',views.changenote, name='changenote'),
     path('signout',views.signout,name='signout'),
+    path('signup',views.signup,name='signup'),
 ]

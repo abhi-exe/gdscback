@@ -71,3 +71,17 @@ def signout(request):
     global isloggedin
     isloggedin=0
     return redirect('loginroute')
+
+def signup(request):
+    if request.method == "POST":
+        form=LoginForm(request.POST)
+        if form.is_valid():
+            try:
+                myuser=User.objects.get(email=request.POST['email'])
+                return render(request,'notes/signup.html',{'form': form,'error': 'Already Exists'})
+            except User.DoesNotExist:
+                post=form.save()
+                return redirect('loginroute')
+    else:
+        form=LoginForm()
+    return render(request,'notes/signup.html',{'form': form,'error': ''})

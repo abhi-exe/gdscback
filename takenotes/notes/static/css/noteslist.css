@@ -76,3 +76,15 @@ a1{
     color: #FFFFFF;
     background-color: #C25100;
 }
+
+#signup{
+    color:#000000;
+    font-size: 18px;
+    text-decoration: none;
+}
+
+#signup:hover{
+    text-decoration: underline;
+    color:#C25100;
+
+}
