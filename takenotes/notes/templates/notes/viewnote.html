@@ -23,6 +23,9 @@
                 <a class="btn btn-secondary" href="{% url 'changenote' pk=note.pk %}">
                   {% include './icons/pencil-fill.svg' %}
                 </a>
+                <a class="btn btn-secondary" href="{% url 'deletenote' pk=note.pk %}">
+                    {% include './icons/trash.svg' %}
+                  </a>
             </aside></h2>
             <time>Last Saved: {{note.save_date}}</time>
             <a>Tags: {{note.tags}}</a>

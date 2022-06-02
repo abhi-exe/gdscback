@@ -85,3 +85,10 @@ def signup(request):
     else:
         form=LoginForm()
     return render(request,'notes/signup.html',{'form': form,'error': ''})
+
+def deletenote(request,pk):
+    if isloggedin!=1:
+        return redirect('loginroute')
+    note=get_object_or_404(Note, pk=pk, author=user)
+    note.delete()
+    return redirect('noteshomeroute')
